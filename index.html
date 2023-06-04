@@ -1,0 +1,89 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">  
+    <title>雨に触れると死んでしまうゲーム</title>  
+    <link rel="stylesheet" href="styles.css">  
+</head>  
+<!-- ... -->  
+<body>  
+    <div class="game-container">  
+        <h1>雨に触れると死んでしまうゲーム</h1>  
+        <p id="score">Score: 0</p>  
+        <canvas id="gameCanvas" width="480" height="320" style="width: 100%; height: auto;"></canvas>  
+
+        <div id="gameOverModal" class="modal">  
+            <div class="modal-content">  
+                <h2>ゲームオーバー</h2>  
+                <button id="restartButton">もう一度プレイ</button>  
+            </div>  
+        </div>  
+        <br>
+        <div class="controls">  
+            <button id="moveLeftButton">左に移動</button>  
+            <button id="barrierButton">バリアを展開</button>  
+            <button id="moveRightButton">右に移動</button>  
+        </div>  
+    </div>  
+    <script src="game.js"></script>  
+    <script>  
+        document.addEventListener('touchmove', function (event) {  
+            if (event.scale !== 1) {  
+                event.preventDefault();  
+            }  
+        }, { passive: false });  
+        // Disable double-tap zoom on buttons  
+        document.querySelectorAll('button').forEach(function(button) {  
+            let lastTouchTime = 0;  
+            
+            button.addEventListener('touchstart', function(event) {  
+                const now = Date.now();  
+                if (now - lastTouchTime < 500) {  
+                    event.preventDefault();  
+                }  
+                lastTouchTime = now;  
+            }, { passive: false });  
+        });  
+
+        // Disable long-press context menu on the entire page for iOS devices  
+        document.addEventListener('touchstart', function(event) {  
+            event.target.style.webkitUserSelect = 'none';  
+        }, false);  
+
+       // Disable right-click context menu  
+        document.addEventListener('contextmenu', function(event) {  
+            event.preventDefault();  
+        }, false);  
+    
+        // Disable long-press context menu on iOS devices  
+        document.addEventListener('touchstart', function(event) {  
+            event.target.style.webkitTouchCallout = 'none';  
+        }, false);  
+
+        // Disable long-press context menu on buttons for iOS devices  
+        document.querySelectorAll('button').forEach(function(button) {  
+            button.addEventListener('touchstart', function(event) {  
+                event.target.style.webkitUserSelect = 'none';  
+            }, false);  
+        });  
+
+        // Disable pinch-zoom on iOS devices  
+        document.addEventListener('touchstart', function (event) {  
+        if (event.touches.length > 1) {  
+            event.preventDefault();  
+        }  
+        }, { passive: false });  
+    
+        document.addEventListener('touchmove', function (event) {  
+        if (event.touches.length > 1) {  
+            event.preventDefault();  
+        }  
+        }, { passive: false }); 
+    </script>  
+
+
+
+</body>  
+<!-- ... -->  
+</html>  
